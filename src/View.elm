@@ -12,7 +12,7 @@ view : Model -> Html Msg
 view model =
   div []
     [ button [ onClick Decrement ] [ text "-" ]
-    , div [style [getColour model.count]] [ text (toString model.count) ]
+    , div [style [getColour model.count]] [ text <| toString model.count ]
     , button [ onClick Increment ] [ text "+" ]
     , button [ onClick Double] [ text "Double" ]
     , button [ onClick Half] [ text "Halve" ]
@@ -20,7 +20,7 @@ view model =
     ]
 
 displayPrevious : Float -> Html Msg
-displayPrevious f = div [style [getColour f]] [text (toString f)]
+displayPrevious f = div [style [getColour f]] [text <| toString f]
 
 halfDiv : List Float ->  Html Msg
-halfDiv list = div [] (List.map displayPrevious list)
+halfDiv list = div [] <| List.map displayPrevious list
