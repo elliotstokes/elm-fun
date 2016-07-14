@@ -9,10 +9,13 @@ update msg model =
   in
     case msg of
       Increment ->
-        { updatedModel | count = updatedModel.count + 1 } ! []
+        (modifyModel updatedModel (\x -> x + 1)) ! []
       Decrement ->
-        { updatedModel | count = updatedModel.count - 1 } ! []
+        (modifyModel updatedModel (\x -> x - 1)) ! []
       Double ->
-        { updatedModel | count = updatedModel.count * 2 } ! []
+        (modifyModel updatedModel (\x -> x * 2)) ! []
       Half ->
-        { updatedModel | count = updatedModel.count / 2 } ! []
+        (modifyModel updatedModel (\x -> x / 2)) ! []
+
+modifyModel: Model -> (Float -> Float) -> Model
+modifyModel m f = { m | count = f m.count }
