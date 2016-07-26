@@ -1,11 +1,12 @@
 module Types exposing (..)
 
+import Http
+
 type alias Model =
-  { count : Float
-  , previous : List Float
+  { previousImages : List String
+  , currentImage : String
   }
 
-type Msg = Increment
-         | Decrement
-         | Double
-         | Half
+type Msg = Fetch
+         | FetchSucceed String
+         | FetchFail Http.Error

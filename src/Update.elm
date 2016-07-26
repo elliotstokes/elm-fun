@@ -1,21 +1,14 @@
 module Update exposing (update)
 
 import Types exposing (..)
+import Images exposing (getRandomGif)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-  let
-    updatedModel = {model | previous = model.count :: model.previous}
-  in
-    case msg of
-      Increment ->
-        (modifyModel updatedModel (\x -> x + 1)) ! []
-      Decrement ->
-        (modifyModel updatedModel (\x -> x - 1)) ! []
-      Double ->
-        (modifyModel updatedModel (\x -> x * 2)) ! []
-      Half ->
-        (modifyModel updatedModel (\x -> x / 2)) ! []
-
-modifyModel: Model -> (Float -> Float) -> Model
-modifyModel m f = { m | count = f m.count }
+  case msg of
+    Fetch ->
+       (model, getRandomGif)
+    FetchSucceed newUrl ->
+      { model | currentImage = newUrl, previousImages = model.currentImage :: model.previousImages } ! []
+    FetchFail _ ->
+      { model | currentImage = "error.gif" } ! []

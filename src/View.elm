@@ -1,26 +1,24 @@
 module View exposing (view)
 
-import Html exposing (Html, div, button, text, span)
-import Html.Attributes exposing (style)
+import Html exposing (Html, div, img, button, text, span)
+import Html.Attributes exposing (style, src)
 import Html.Events exposing (onClick)
 import Types exposing (..)
-
-getColour : Float -> (String, String)
-getColour amount = if amount > 100 then ("color", "red") else ("color", "green")
 
 view : Model -> Html Msg
 view model =
   div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [style [getColour model.count]] [ text <| toString model.count ]
-    , button [ onClick Increment ] [ text "+" ]
-    , button [ onClick Double] [ text "Double" ]
-    , button [ onClick Half] [ text "Halve" ]
-    , halfDiv model.previous
+    [ getPhotoDiv model.currentImage 
+    , previousDiv model.previousImages
     ]
 
-displayPrevious : Float -> Html Msg
-displayPrevious f = div [style [getColour f]] [text <| toString f]
+getPhotoDiv : String -> Html Msg
+getPhotoDiv isrc =
+  div [] [ img [src isrc] []
+         , button [ onClick Fetch] [text "Moar"]]
 
-halfDiv : List Float ->  Html Msg
-halfDiv list = div [] <| List.map displayPrevious list
+displayPrevious : String -> Html Msg
+displayPrevious f = div [] [text <| toString f]
+
+previousDiv : List String ->  Html Msg
+previousDiv list = div [] <| List.map displayPrevious list
